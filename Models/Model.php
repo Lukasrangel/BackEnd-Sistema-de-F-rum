@@ -151,6 +151,21 @@ class Models {
             return "<script> Formato da imagem inválido </script>";
         }
     }
+
+    public static function deleta_post($id){
+        $sql = \Mysql::conectar()->prepare("DELETE FROM `posts` WHERE `id` = ?");
+        $sql->execute(array($id));
+        return true;
+    }
+
+    public static function edita_post($post){
+        $mensagem = $post['post'];
+        $id = $post['id'];
+        $user_id = $_SESSION['id'];
+
+        $sql = \Mysql::conectar()->prepare("UPDATE `posts` SET `mesagem`= ? WHERE `user_id` = ? AND `id` = ?");
+        $sql->execute(array($mensagem,$user_id,$id));
+    }
 }
 
 ?>

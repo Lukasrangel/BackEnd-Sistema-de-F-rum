@@ -1,0 +1,72 @@
+*{
+    margin: 0;
+    padding: 0; 
+}
+
+/* BOOT CSS */
+.center {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 2%;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.w30 {
+    width: 30%;
+} 
+
+.w50 {
+    width: 50%;
+}
+
+.w70 {
+    width: 70%;
+}
+
+
+/* page topicos */
+.criar-topico {
+    margin-top: 15px;
+}
+
+
+
+
+
+/* page discusao */
+.topico {
+    margin-top: 40px;
+}
+
+.post {
+    padding: 15px;
+    border: 1px solid black; 
+    margin-bottom: 22px;
+}
+
+.user img {
+    max-width: 100%;
+    width: 120px;
+    height: 150px;
+}
+
+.options {
+    position: relative;
+    text-align: right;
+}
+
+/* page edita */
+.edita textarea {
+    width: 100%;
+}

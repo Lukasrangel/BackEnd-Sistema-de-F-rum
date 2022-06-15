@@ -16,6 +16,7 @@ if(\Models\Models::isLogin()){
 ?>
 
 <section class="criar-topico">
+    <div class="center">
 
     <p>Criar Tópico</p>
 
@@ -28,7 +29,7 @@ if(\Models\Models::isLogin()){
 
     </form>
 
-</section>
+    <br><br>
 
 
 <p>Listando tópicos</p>
@@ -49,3 +50,6 @@ if($topicos != false){
     echo "Para criar Tópico faça <a href='".INITIAL_PATH."/cadastrar'> cadastro </a> ou <a href='".INITIAL_PATH."/login'> login </a> ";
 }
 ?>
+
+</div><!--center-->
+</section>

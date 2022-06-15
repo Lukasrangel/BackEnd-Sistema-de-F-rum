@@ -88,6 +88,17 @@ class forumController {
         $View->setParam($data);
         $View->render();
     }
+
+    public function editar(){
+        $Models = new \Models\Models();
+        if(isset($_POST['acao'])){
+            $Models->edita_post($_POST);
+        }
+
+        $View = new \Views\MainView('edita.php');
+        $View->render();
+
+    }
 }
 
 

@@ -12,14 +12,17 @@ $sql->execute(array($_GET['url']));
 ?>
 
 <section class='breadcrumb'>
-    Voce esté em <span> <a href='/forum'> Forum ></a> <a href='/forum/<?php echo $url[0] ?>'> <?php  echo ucfirst(str_replace('-',' ',$url[0])); ?> > </a> <?php echo $topico; ?> </span>
-
+    <div class="center">
+        Voce esté em <span> <a href='/forum'> Forum ></a> <a href='/forum/<?php echo $url[0] ?>'> <?php  echo ucfirst(str_replace('-',' ',$url[0])); ?> > </a> <?php echo $topico; ?> </span>
+    </div><!--center-->
 </section><!--breadcrumb-->
 
 
 <section class='topico'>
+    <div class="center">
     <h2>Tópico <?php echo ucfirst(str_replace('-',' ',$url[1])); ?></h2>
 
+    <br><br>
 <?php
 
 $posts = $this->param;
@@ -30,23 +33,43 @@ if(count($posts) == 0){
 
 foreach($posts as $post){
 
-    $sql = \Mysql::conectar()->prepare("SELECT `nick` FROM `usuarios` WHERE `id` = '$post[user_id]'");
+    $sql = \Mysql::conectar()->prepare("SELECT `nick`,`foto` FROM `usuarios` WHERE `id` = '$post[user_id]'");
     $sql->execute();
-    $nick = $sql->fetch()['nick'];
+    $data = $sql->fetch();
 
 ?>
-<div class="post" style='border: 1px solid black; margin-bottom: 22px;'>
-<p> <a style='text-decoration:none; color:black;'href='<?php echo INITIAL_PATH ?>/my?y=<?php echo $nick; ?>'> <?php echo $nick; ?> </a></p>
+<div class="post" id='post_<?php echo $post['id']; ?>'>
+    <div class="user left w30" >
+        <img src='<?php echo INITIAL_PATH ?>/imgs/<?php echo $data['foto']; ?>'>
+        <p> <a style='text-decoration:none; color:black;'href='<?php echo INITIAL_PATH ?>/my?y=<?php echo $data['nick']; ?>'> <?php echo $data['nick']; ?> </a></p>
+    </div><!--user-->
 
-<p> <?php echo $post['mesagem']; ?></p>
-</div>
+    <div class="texto left">
+        <p> <?php echo $post['mesagem']; ?></p>
+    </div><!--texto-->
+    <div class="clear"></div>
+
+    <?php
+        if($data['nick'] == $_SESSION['user']){
+    ?>
+    <div class="options">
+        <button onclick="editaPost(<?php echo $post['id']; ?>)"> Editar </button>
+        <button  onclick="deletaPost(<?php echo $post['id']; ?>)"> Excluir</button>
+    </div><!--options-->
+
+    <?php
+        }
+    ?>
+    
+
+</div><!--post-->
 
 
 <?php
 }
 }
 ?>
-</section><!--topico-->
+    
 
 
 <?php
@@ -78,3 +101,5 @@ if(isset($_SESSION['login'])){
     echo "Faça <a href='".INITIAL_PATH."/login'> login </a> para interagir ou <a href='".INITIAL_PATH."/cadastrar'> cadastre-se </a>";
 }
 ?>
+    </div><!--center-->
+</section><!--topico-->

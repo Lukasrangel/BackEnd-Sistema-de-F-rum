@@ -1,7 +1,10 @@
 <section>
+    <div class="center">
 
     <p>Listando assuntos</p>
 
+    <br><br>
+    
     <ul>
     <?php
        $assuntos = $this->param;
@@ -12,5 +15,5 @@
     ?>
     </ul>
     
-
+    </div><!--center-->
 </section>

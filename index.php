@@ -14,7 +14,7 @@ Router::get('/',function() use ($controller){
 //listar topicos
 Router::get('/?',function($arr) use ($controller){
     //lista tópicos
-    if($arr[1] == 'cadastrar' || $arr[1] == 'login' || $arr[1] == 'my'){
+    if($arr[1] == 'cadastrar' || $arr[1] == 'login' || $arr[1] == 'my' || $arr[1] == 'edita'){
 
     } else {
         $controller->forum();
@@ -25,7 +25,7 @@ Router::get('/?',function($arr) use ($controller){
 
 //inserir topicos
 Router::post('/?',function($arr) use ($controller){
-    if($arr[1] == 'cadastrar' || $arr[1] == 'login' || $arr[1] == 'my'){
+    if($arr[1] == 'cadastrar' || $arr[1] == 'login' || $arr[1] == 'my' || $arr[1] == 'edita'){
         
     } else {
         $controller->forum();
@@ -78,5 +78,14 @@ Router::post('/my', function() use ($controller){
 
 Router::get('/logout', function(){
     \Models\Models::logout();
+});
+
+//edita post
+Router::get('/edita', function() use ($controller){
+    $controller->editar();
+});
+
+Router::post('/edita', function() use ($controller){
+    $controller->editar();
 });
 ?>
