@@ -18,3 +18,21 @@ function deletaPost(id){
 function editaPost(id){
     window.location = initial_path + '/edita?post=' + id;
 }
+
+//abre edição no my
+var overflow = document.querySelector('.overflow');
+var box = document.querySelector('.user-infos')
+
+open = document.querySelector('.icon img');
+open.addEventListener('click',()=>{
+    overflow.style.display = 'block';
+    box.classList.add('animate');
+})
+
+
+//fecha edição my
+close = document.querySelector('.close')
+close.addEventListener('click',()=>{
+    overflow.style.display = 'none';
+    box.classList.remove('animate');
+})

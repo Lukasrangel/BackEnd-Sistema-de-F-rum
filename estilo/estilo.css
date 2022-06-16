@@ -34,15 +34,40 @@
     width: 70%;
 }
 
+[anime-data] {
+    opacity: 0;
+
+    transition: 1s;
+}
+
+[anime-data=up]{
+    transform: translateY(-200%);
+}
+
+.animate {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* home */
+.breadcrumb {
+    margin-bottom: 12px;
+}
+
+.topico-single {
+    margin-top: 25px;
+    background-color: grey;
+    padding: 8px;
+}
+
+.topico-single a {
+    color: white;
+}
 
 /* page topicos */
 .criar-topico {
     margin-top: 15px;
 }
-
-
-
-
 
 /* page discusao */
 .topico {
@@ -69,4 +94,73 @@
 /* page edita */
 .edita textarea {
     width: 100%;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.pagination a {
+    padding: 8px;
+    text-decoration: none;
+    color: black;
+}
+/* my */
+.icon img{
+    cursor: pointer;
+    max-width: 100%;
+    width: 28px;
+    height: 28px;
+}
+
+.overflow {
+    position: absolute;
+    display: none;
+    top: 0;
+    width:100%;
+    height: 200%;
+    background-color: darkgrey;
+    opacity: .7;
+    z-index: 2;
+}
+
+.user-infos {
+    background-color: white;
+    position: relative;
+    display: block;
+    top: -520px;
+    margin: 0 auto;
+    border: 5px solid black;
+    width: 50%;
+    height: 220px;
+    padding: 22px;
+    z-index: 10;
+    
+}
+
+.user-infos form {
+    margin-top: 18px;
+}
+.user-infos input[type=text]{
+    width: 90%;
+    padding: 5px;
+    font-size: 21px;
+}
+
+.user-infos textarea {
+    width: 92%;
+}
+
+.user-infos .close {
+    border: 3px solid black;
+    background-color: brown;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    padding: 2px;
+    cursor: pointer;
+    text-align: center;
+    position:absolute;
+    left: 98%;
+    top: -18px;
 }

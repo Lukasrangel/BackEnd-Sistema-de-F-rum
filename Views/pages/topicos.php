@@ -12,6 +12,7 @@ Voce esté em <span> <a href='/forum'> Forum ></a>  <?php echo ucfirst(str_repla
 
 if(\Models\Models::isLogin()){
 
+    
 
 ?>
 
@@ -31,25 +32,29 @@ if(\Models\Models::isLogin()){
 
     <br><br>
 
+    <?php
+        } else {
+            echo "Para criar Tópico faça <a href='".INITIAL_PATH."/cadastrar'> cadastro </a> ou <a href='".INITIAL_PATH."/login'> login </a> ";
+        }
+    ?>
 
-<p>Listando tópicos</p>
+    <br><br>
+    
+    <p>Listando tópicos</p>
 
-<ul>
-<?php
-if($topicos != false){
-    foreach($topicos as $topico){
-        echo '<li><a href='.$topico['slug'].'> ' . $topico['topico'] . '</a></li>';
+    <br><br>
+
+    <ul>
+    <?php
+    if($topicos != false){
+        foreach($topicos as $topico){
+            echo '<li><a href='.$topico['slug'].'> ' . $topico['topico'] . '</a></li>';
+        }
     }
-}
 
 
-?>
-</ul>
-<?php
-} else {
-    echo "Para criar Tópico faça <a href='".INITIAL_PATH."/cadastrar'> cadastro </a> ou <a href='".INITIAL_PATH."/login'> login </a> ";
-}
-?>
+    ?>
+    </ul>
 
 </div><!--center-->
 </section>

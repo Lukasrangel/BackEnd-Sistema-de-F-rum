@@ -28,7 +28,9 @@ class Models {
 
     public static function cadastrar_topico($post){
         $nome = $post['topico'];
+        $user_id = $_SESSION['id'];
         $assunto_id = $post['assunto_id'];
+        $dia = date('d/m/Y');
 
         $sql = \Mysql::conectar()->prepare("SELECT `slug` FROM `assuntos` WHERE `id` = ?");
         $sql->execute(array($assunto_id));
@@ -39,14 +41,30 @@ class Models {
 
         $slug_final = $slug1 . '/' . $slug2;
 
-        $sql = \Mysql::conectar()->prepare("INSERT INTO `topicos` VALUES (null,?,?,?)");
-        $sql->execute(array($assunto_id,$nome,$slug_final));
+        $sql = \Mysql::conectar()->prepare("INSERT INTO `topicos` VALUES (null,?,?,?,?,?)");
+        $sql->execute(array($assunto_id,$nome,$slug_final,$user_id,$dia));
     }
 
     public static function listar_posts($slug){
         $sql = \Mysql::conectar()->prepare("SELECT * FROM `posts` WHERE `slug_topico` = ?");
         $sql->execute(array($slug));
-        return $sql->fetchAll();
+        $dados = $sql->fetchAll();
+
+        $porPagina = 10;
+        $totalPaginas = ceil(count($dados) / $porPagina);
+
+        if(isset($_GET['page'])){
+            $page = ((int)$_GET['page'] - 1) * $porPagina;
+        } else {
+            $page = 0 * $porPagina;
+        }
+
+        $sql = \Mysql::conectar()->prepare("SELECT * FROM `posts` WHERE `slug_topico` = ? LIMIT $page, $porPagina");
+        $sql->execute(array($slug));
+        $dados['dados'] = $sql->fetchAll();
+        $dados['paginas'] = $totalPaginas;
+
+        return $dados;
     }
 
     public static function isLogin(){
@@ -140,16 +158,54 @@ class Models {
         $sql->execute(array($user_id,$mensagem,$slug_topico));
     }
 
+    public static function pegaResumoUser($user_id){
+        $sql = \Mysql::conectar()->prepare("SELECT `resumo` FROM `usuarios` WHERE `id` = ?");
+        $sql->execute(array($user_id));
+        return $sql->fetch()['resumo'];
+    }
+
     public static function adicionar_foto($file){
-        echo __DIR__;
         $foto = \Forum::upload_img($file, 'imgs/');
         if($foto != false){
             $sql = \Mysql::conectar()->prepare("UPDATE `usuarios` SET `foto` = ? WHERE `nick` = ?");
             $sql->execute(array($foto, $_SESSION['user']));
             return 0;
         } else {
-            return "<script> Formato da imagem inválido </script>";
+            return "<script> alert('Formato da imagem inválido') </script>";
         }
+    }
+
+    public static function atualizarDados($post){
+        if($post['nick'] == $_SESSION['user']){
+            $nick = $_SESSION['user'];
+            $nick_valido = true;
+        } else {
+            $nick = $post['nick'];
+            $nick_valido = false;
+        }
+
+        $resumo = strip_tags($post['resumo']);
+
+        if(!$nick_valido){
+            $sql = \Mysql::conectar()->prepare("SELECT `nick` FROM `usuarios` WHERE `nick` = ?");
+            $sql->execute(array($nick));
+            if($sql->rowCount() > 0){
+                return "<script> alert('Este nick já existe!') </script>";
+            } else {
+                $nick_valido = true;
+            }
+        }
+
+        if($nick_valido){
+            $sql = \Mysql::conectar()->prepare("UPDATE `usuarios` SET `nick` = ?, `resumo` = ? WHERE `id` = ?");
+            $sql->execute(array($nick,$resumo,$_SESSION['id']));
+            if($sql->rowCount() > 0){
+                $_SESSION['user'] = $nick;
+                return "<script> alert('Atualização ok')</script>";
+            }
+        }
+
+       
     }
 
     public static function deleta_post($id){
@@ -165,6 +221,12 @@ class Models {
 
         $sql = \Mysql::conectar()->prepare("UPDATE `posts` SET `mesagem`= ? WHERE `user_id` = ? AND `id` = ?");
         $sql->execute(array($mensagem,$user_id,$id));
+    }
+
+    public static function ultimosTopicos(){
+        $sql = \Mysql::conectar()->prepare("SELECT * FROM `topicos` ORDER BY `id` DESC LIMIT 0,8");
+        $sql->execute();
+        return $sql->fetchAll();
     }
 }
 

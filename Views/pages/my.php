@@ -1,8 +1,6 @@
 <?php
 
-if(!\Models\Models::isLogin()){
-    header('Location:' . INITIAL_PATH);
-} 
+
 
 
 ?>
@@ -12,9 +10,25 @@ if(!\Models\Models::isLogin()){
 
         <div class="dados" style='width: 50%; float:left;display:block;'>
 
-            <h1> <?php echo $this->param['user']; ?></h1>
+            <?php
+                if($this->param['user'] == @$_SESSION['user']){
+            ?>
+            <div class="icon right"><img src='<?php echo INITIAL_PATH?>/icons/pencil.png'></div>
+            <div class="clear"></div>
+
+            <?php
+                }
+            ?>
+
+            <h1> <?php echo $this->param['user']; ?> </h1>
     
     
+            <br><br>
+
+            <?php
+                echo $this->param['resumo'];
+                
+            ?>
         </div><!--dados-->
 
         <div class="foto" style='width: 50%;float:right;display:block;'>
@@ -27,7 +41,7 @@ if(!\Models\Models::isLogin()){
             <img src='<?php echo INITIAL_PATH ?>/imgs/<?php echo $foto; ?>' style='display: block; margin: 22px auto;border: 1px solid black; width: 180px; height: 210px'>
 
             <?php
-                if($this->param['user'] == $_SESSION['user']){
+                if($this->param['user'] == @$_SESSION['user']){
             ?>
                 <form method='post' enctype="multipart/form-data">
                 
@@ -78,3 +92,28 @@ if(!\Models\Models::isLogin()){
     </div><!--center-->
 </section>
 
+<div class="overflow"></div>
+
+<div class="user-infos" anime-data='up'>
+
+        <div class="close"> X </div>
+
+        <form method='post'>
+
+        <input type='text' name='nick' value='<?php echo $_SESSION['user']; ?>'>
+
+        <br><br>
+
+        <textarea rows='6' name='resumo'>
+            <?php echo @$this->param['resumo']; ?>
+        </textarea>
+           
+        <br><br>
+
+        <input type='submit' name='infos' value='Editar!'>
+
+
+        </form>
+
+
+</div><!--user-infos-->

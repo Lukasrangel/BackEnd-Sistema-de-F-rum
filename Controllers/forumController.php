@@ -12,7 +12,9 @@ class forumController {
         //puxar página home;
         $Model = new \Models\Models();
         $View = new \Views\MainView('home.php');
-        $View->setParam($Model->listar_assuntos());
+        $data['assuntos'] = $Model->listar_assuntos();
+        $data['ultimosTopicos'] = $Model->ultimosTopicos();
+        $View->setParam($data);
         $View->render();    
     }
 
@@ -60,6 +62,10 @@ class forumController {
     public function my(){
         $Model = new \Models\Models();
 
+        if(isset($_POST['infos'])){
+            echo $Model->atualizarDados($_POST);
+        }
+
         if(isset($_POST['acao'])){
             echo $Model->adicionar_foto($_FILES['foto']);
         }
@@ -82,6 +88,7 @@ class forumController {
         
 
         $data['user'] = $user;
+        $data['resumo'] = $Model->pegaResumoUser($user_id);
         $data['posts'] = $Model->pegaPosts($user_id); 
 
         $View = new \Views\MainView('my.php');
