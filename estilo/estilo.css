@@ -91,6 +91,11 @@
     text-align: right;
 }
 
+.resposta {
+    border: 1px solid black;
+    padding: 15px;
+    margin-bottom: 10px;
+}
 /* page edita */
 .edita textarea {
     width: 100%;
@@ -106,6 +111,17 @@
     color: black;
 }
 /* my */
+.post {
+    border: 1px solid black;
+    margin-bottom: 18px;
+}
+
+.header-topico {
+    width: 100%;
+    background-color: grey;
+    position:relative;
+    top: -19px;
+}
 .icon img{
     cursor: pointer;
     max-width: 100%;

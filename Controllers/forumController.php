@@ -104,8 +104,22 @@ class forumController {
 
         $View = new \Views\MainView('edita.php');
         $View->render();
-
     }
+
+    public static function responda(){
+        $Models = new \Models\Models();
+        $View = new \Views\MainView('responda.php');
+        if(isset($_POST['acao'])){
+            $Models->cadastrar_post($_POST);
+            header("Location:" . INITIAL_PATH . '/' . $_POST['slug_topico']);
+        } else {
+            $id = $_GET['post'];
+            $View->setParam($Models->postSingle($id));
+        }
+
+        $View->render();
+    }
+
 }
 
 

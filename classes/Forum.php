@@ -32,6 +32,11 @@ class Forum {
         }
     }
 
+    public static function deletarFoto($foto){
+        @unlink('imgs/' . $foto);
+        
+    }
+
 
 }
 

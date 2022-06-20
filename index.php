@@ -88,4 +88,13 @@ Router::get('/edita', function() use ($controller){
 Router::post('/edita', function() use ($controller){
     $controller->editar();
 });
+
+//responder post
+Router::get('/?/?/responda', function() use ($controller){
+    $controller->responda();
+});
+
+Router::post('/?/?/responda', function() use ($controller){
+    $controller->responda();
+});
 ?>

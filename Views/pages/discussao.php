@@ -55,6 +55,23 @@ foreach($posts as $post){
 
 ?>
 <div class="post" id='post_<?php echo $post['id']; ?>'>
+
+    <?php
+        if($post['resposta'] != 0){
+            $resposta_de = \Models\Models::resposta($post)
+    ?>
+        <div class="resposta">
+            <div class="header-topico">
+                <?php echo @$resposta_de['user']; ?>
+            </div>
+
+            <?php echo substr($resposta_de['mesagem'],0,70); ?>
+        </div>
+
+    <?php
+        }
+    ?>
+
     <div class="user left w30" >
         <img src='<?php echo INITIAL_PATH ?>/imgs/<?php echo $data['foto']; ?>'>
         <p> <a style='text-decoration:none; color:black;'href='<?php echo INITIAL_PATH ?>/my?y=<?php echo $data['nick']; ?>'> <?php echo $data['nick']; ?> </a></p>
@@ -65,17 +82,25 @@ foreach($posts as $post){
     </div><!--texto-->
     <div class="clear"></div>
 
+   
+    <div class="options">
     <?php
+        if(isset($_SESSION['user'])){
+            $slug = $_GET['url'];
+    ?>
+        <button onclick="responderPost(<?php echo $post['id'] ?>,'<?php echo $slug; ?>')"> Responder </button>
+    <?php
+        }
         if($data['nick'] == @$_SESSION['user']){
     ?>
-    <div class="options">
         <button onclick="editaPost(<?php echo $post['id']; ?>)"> Editar </button>
         <button  onclick="deletaPost(<?php echo $post['id']; ?>)"> Excluir</button>
-    </div><!--options-->
-
     <?php
         }
     ?>
+    </div><!--options-->
+
+    
     
 
 </div><!--post-->

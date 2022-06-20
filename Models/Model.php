@@ -67,6 +67,12 @@ class Models {
         return $dados;
     }
 
+    public static function postSingle($id){
+        $sql = \Mysql::conectar()->prepare("SELECT * FROM `posts` WHERE `id` = ?");
+        $sql->execute(array($id));
+        return $sql->fetch();
+    }
+
     public static function isLogin(){
       return isset($_SESSION['login']) ? true : false;
     }
@@ -154,8 +160,14 @@ class Models {
         $slug_topico = $post['slug_topico'];
         $mensagem = $post['post'];
 
-        $sql = \Mysql::conectar()->prepare("INSERT INTO `posts` VALUES (null, ?,?,?)");
-        $sql->execute(array($user_id,$mensagem,$slug_topico));
+        if(isset($post['resposta'])){
+            $resposta = $post['resposta'];
+        } else {
+            $resposta = 0;
+        }
+
+        $sql = \Mysql::conectar()->prepare("INSERT INTO `posts` VALUES (null, ?,?,?,?)");
+        $sql->execute(array($user_id,$mensagem,$resposta,$slug_topico));
     }
 
     public static function pegaResumoUser($user_id){
@@ -165,11 +177,16 @@ class Models {
     }
 
     public static function adicionar_foto($file){
+        $sql = \Mysql::conectar()->prepare("SELECT `foto` FROM `usuarios` WHERE `nick` = ?");
+        $sql->execute(array($_SESSION['user']));
+        $antiga = $sql->fetch()['foto'];
+
+
         $foto = \Forum::upload_img($file, 'imgs/');
         if($foto != false){
+            \Forum::deletarFoto($antiga);
             $sql = \Mysql::conectar()->prepare("UPDATE `usuarios` SET `foto` = ? WHERE `nick` = ?");
             $sql->execute(array($foto, $_SESSION['user']));
-            return 0;
         } else {
             return "<script> alert('Formato da imagem inválido') </script>";
         }
@@ -223,11 +240,52 @@ class Models {
         $sql->execute(array($mensagem,$user_id,$id));
     }
 
+    public static function resposta($post){
+        $id = $post['resposta'];
+        $sql = \Mysql::conectar()->prepare("SELECT * FROM `posts` WHERE `id` = ?");
+        $sql->execute(array($id));
+        $resposta_de = $sql->fetch();
+
+        if($resposta_de == 0){
+            $resposta_de['mesagem'] = 'Post excluído pelo autor';
+        } else {
+            $sql = \Mysql::conectar()->prepare("SELECT `nick` FROM `usuarios` WHERE `id` = ?");
+            $sql->execute(array($resposta_de['user_id']));
+            $resposta_de['user'] = $sql->fetch()['nick'];
+        }
+        return $resposta_de;
+
+    }
+
+    public static function respostas_my(){
+        $sql = \Mysql::conectar()->prepare("SELECT `id` FROM `posts` WHERE `user_id` = ?");
+        $sql->execute(array($_SESSION['id']));
+        $seusposts = $sql->fetchAll(); 
+
+        $suasrespostas = [];
+        
+        foreach($seusposts as $post){
+            $sql = \Mysql::conectar()->prepare("SELECT * FROM `posts` WHERE `resposta` <> ? AND `resposta` = ?");
+            $sql->execute(array(0,$post['id']));
+            array_push($suasrespostas, $sql->fetch());
+        }
+
+        return $suasrespostas;
+    }
+
     public static function ultimosTopicos(){
         $sql = \Mysql::conectar()->prepare("SELECT * FROM `topicos` ORDER BY `id` DESC LIMIT 0,8");
         $sql->execute();
         return $sql->fetchAll();
     }
+
+    public static function pega_meus_topicos(){
+        $sql = \Mysql::conectar()->prepare("SELECT * FROM `topicos` WHERE `user_id` = ?");
+        $sql->execute(array($_SESSION['id']));
+        return $sql->fetchAll();
+    }
+
+
 }
 
 ?>

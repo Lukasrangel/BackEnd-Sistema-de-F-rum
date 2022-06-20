@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 17-Jun-2022 às 00:54
+-- Tempo de geração: 20-Jun-2022 às 19:53
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.0.19
 
@@ -51,6 +51,7 @@ CREATE TABLE `posts` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `mesagem` text NOT NULL,
+  `resposta` int(11) NOT NULL,
   `slug_topico` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -58,14 +59,14 @@ CREATE TABLE `posts` (
 -- Extraindo dados da tabela `posts`
 --
 
-INSERT INTO `posts` (`id`, `user_id`, `mesagem`, `slug_topico`) VALUES
-(1, 7, '                        Preciso de ajuda aqui             ', 'desenvolvimento-web/php'),
-(2, 7, '            Tenho um problema em php, será que rola um help?      ', 'desenvolvimento-web/php'),
-(3, 8, ' A resposta é esta', 'desenvolvimento-web/php'),
-(6, 8, ' Tenho uma dúvida neste código', 'desenvolvimento-de-games/python'),
-(8, 8, '                         E agora como faz?              ', 'desenvolvimento-web/javascript'),
-(9, 7, ' Value obrigado', 'desenvolvimento-web/php'),
-(10, 8, ' nada não', 'desenvolvimento-web/php');
+INSERT INTO `posts` (`id`, `user_id`, `mesagem`, `resposta`, `slug_topico`) VALUES
+(1, 7, '                        Preciso de ajuda aqui             ', 0, 'desenvolvimento-web/php'),
+(2, 7, '            Tenho um problema em php, será que rola um help?      ', 0, 'desenvolvimento-web/php'),
+(3, 8, ' A resposta é esta', 0, 'desenvolvimento-web/php'),
+(6, 8, ' Tenho uma dúvida neste código', 0, 'desenvolvimento-de-games/python'),
+(8, 8, '                         E agora como faz?              ', 0, 'desenvolvimento-web/javascript'),
+(9, 7, ' Value obrigado', 0, 'desenvolvimento-web/php'),
+(10, 8, ' nada não', 0, 'desenvolvimento-web/php');
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,8 @@ INSERT INTO `topicos` (`id`, `assunto_id`, `topico`, `slug`, `user_id`, `dia`) V
 (1, 1, 'PHP', 'desenvolvimento-web/php', 7, '15/09/2022'),
 (4, 3, 'Python', 'desenvolvimento-de-games/python', 8, '16/06/2022'),
 (6, 3, 'Unreal Engine', 'desenvolvimento-de-games/unreal-engine', 0, ''),
-(10, 1, 'Javascript', 'desenvolvimento-web/javascript', 8, '15/06/2022');
+(10, 1, 'Javascript', 'desenvolvimento-web/javascript', 8, '15/06/2022'),
+(11, 1, 'MVC', 'desenvolvimento-web/mvc', 8, '20/06/2022');
 
 -- --------------------------------------------------------
 
@@ -112,7 +114,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nick`, `email`, `pass`, `foto`, `resumo`) VALUES
-(7, 'Cyx', 'revoltarangel@gmail.com', '123456', 'c234fcae4139962a36380f21555c19662aa58752e623.jpg', '            Me chama no email!\r\n             '),
+(7, 'Cyx', 'revoltarangel@gmail.com', '123456', 'c234fcae4139962a36380f21555c19662acd68fdaf35.jpg', '            Me chama no email!\r\n             '),
 (8, 'Haku', 'pele@gmail.com', '1234', 'robot62abb39bd9777.png', '                    ');
 
 --
@@ -157,13 +159,13 @@ ALTER TABLE `assuntos`
 -- AUTO_INCREMENT de tabela `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `topicos`
 --
 ALTER TABLE `topicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

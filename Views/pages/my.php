@@ -92,6 +92,79 @@
     </div><!--center-->
 </section>
 
+
+<section class="responderam_a_vc">
+    <div class="center">
+
+    <div class="titulo">
+        <h2> Responderam a você </h2>
+    </div><!--titulo-->
+
+        <?php
+           $suasrespostas = \Models\Models::respostas_my();
+
+            foreach($suasrespostas as $suaresposta){
+                if(empty($suaresposta)){
+                    
+                } else {
+        ?>
+
+        <div class="post" style='border: 1px solid black;margin-bottom: 18px;'>
+            <div class="header-topico" style='width: 100%; background-color: grey; position:relative; top: -19px;'>
+               <h3 style='color: white;'> <a style='text-decoration:none; color: white;'href='<?php echo INITIAL_PATH . '/' . $suaresposta['slug_topico']; ?>'> <?php echo @$suaresposta['slug_topico'] ?> </a> </h3>
+            </div><!--header-topico-->
+            <p> <?php echo @$suaresposta['mesagem'] ?></p>
+
+        </div>
+
+        <?php
+                }
+            }
+        ?>
+
+
+    </div><!--center-->
+</section><!--responderam-a-vc-->
+
+
+<section class="seus-topicos">
+    <div class="center">
+
+    <div class="titulo">
+        <h2> Seus tópicos</h2>
+    </div><!--titulo-->
+
+    <?php
+        $topicos = \Models\Models::pega_meus_topicos();
+
+        foreach($topicos as $topico){
+    ?>
+
+    <div class="post" style='border: 1px solid black;margin-bottom: 18px;'>
+        
+        <div class="header-topico" style='width: 100%; background-color: grey; position:relative; top: -19px;'>
+            <h3 style='color: white;'> <a style='text-decoration:none; color: white;'href='<?php echo INITIAL_PATH . '/' . $topico['slug']; ?>'> <?php echo $topico['slug'] ?> </a> </h3>
+        </div><!--header-topico-->
+        
+        <h3> última mensagem: </h3>
+
+        <?php
+            $sql = \Mysql::conectar()->prepare("SELECT * FROM `posts` WHERE `slug_topico` = ? ORDER BY `id` DESC");
+            $sql->execute(array($topico['slug']));
+            $ultimaMensagem = $sql->fetch()['mesagem'];
+        ?>
+        <br>
+        <p> <?php echo @$ultimaMensagem; ?></p>
+
+    </div><!--post-->
+
+    <?php
+        }
+    ?>
+
+    </div><!--center-->
+</section><!--seus-topicos-->
+
 <div class="overflow"></div>
 
 <div class="user-infos" anime-data='up'>

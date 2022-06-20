@@ -19,6 +19,10 @@ function editaPost(id){
     window.location = initial_path + '/edita?post=' + id;
 }
 
+function responderPost(id, slug){
+    window.location = initial_path + '/'  + slug + '/responda?post=' + id;
+}
+
 //abre edição no my
 var overflow = document.querySelector('.overflow');
 var box = document.querySelector('.user-infos')
