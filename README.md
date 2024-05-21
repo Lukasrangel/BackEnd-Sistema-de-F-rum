@@ -1,4 +1,4 @@
-<h1> Backedn de Sistema de Forum em PHP usando MVC </h1>
+<h1> Backend de Sistema de Forum em PHP usando MVC </h1>
 
 O foco do projeto foi desenvolver o backend, sem preocupação com o front. 
 Todo o esqueleto para um fórum com tópicos, separados por temas e cadastro e autenticação de usuários,
